@@ -109,7 +109,7 @@ useEffect(()=>{
         formData.append('sourceImage', uploadedimage);
         formData.append('destImage', '');
        
-        const apiUrl = 'http://216.48.189.156:9033/upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor';
+        const apiUrl = 'https://blackhashtech.com/upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor';
         const res = await callapi(formData, apiUrl);
         console.log('check');
         console.log(res);
