@@ -1,7 +1,6 @@
 "use client"
 import Image from "next/image";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '/assets/css/main.css';
 import HeaderNavbar from "../../components/navbar/headerNavBar";
 import Footer from "../../components/footer/footer";
 import Banner from "@/components/banner/banner";
