@@ -111,6 +111,9 @@ useEffect(()=>{
        
         const apiUrl = 'http://216.48.189.156:9033/upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor';
         const res = await callapi(formData, apiUrl);
+        console.log('check');
+        console.log(res);
+        console.log('checked');
         props.onDataReceived(res);
       } else {
         // Handle case where uploadedimage is null
