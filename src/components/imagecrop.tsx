@@ -165,7 +165,7 @@ useEffect(()=>{
         // Append the ReadStream to FormData
         formData.append('sourceImage', file);
         formData.append('destImage', '');
-        const apiUrl = 'http://216.48.189.156:9033/upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor';
+        const apiUrl = 'https://blackhashtech.com/upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor';
         const res =callapi(formData,apiUrl);
         props.onDataReceived(res);
         resolve();
