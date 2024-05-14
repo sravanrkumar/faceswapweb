@@ -5,7 +5,7 @@ import Footer from "@/components/footer/footer";
 import Banner from "@/components/banner/banner";
 import { Modal,Button, Spinner } from "flowbite-react";
 import categoryData from "@/constants/categoryData";
-import Usepostimageupload from "@/hooks/UsePostImageUpload";
+import UseImageProcessApi from "@/hooks/UseImageProcessApi";
 import { useEffect, useState } from "react";
 import App from "@/components/imagecrop";
 interface categoryPageProps {
@@ -39,18 +39,7 @@ export default function image(props: categoryPageProps) {
 const handleDataReceived = (data:string) => {
   // Handle the received data from the child component
   setgenratedimageUrl(data);
-};
-const handleFileUpload = (target: HTMLInputElement) => {
-  const files = target.files;
-  const formData = new FormData();
-  if (files && files.length > 0) {
-    const file = files[0];
-    formData.append('sourceImage',file);
-    formData.append('destImage','');
-    
-  }
-  const apiUrl = 'https://216.48.189.156:9033/upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor';
-  const response = Usepostimageupload(apiUrl,formData);
+  
 };
 const handleDownload = () => {
   if (genratedimageUrl) {
@@ -62,7 +51,7 @@ const handleDownload = () => {
     link.click();
     document.body.removeChild(link);
   } else {
-    alert('Please enter a valid image URL');
+    console.log('Please enter a valid image URL');
   }
 };
   return (

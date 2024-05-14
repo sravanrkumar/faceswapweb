@@ -1,5 +1,4 @@
 "use client"
-import Image from "next/image";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HeaderNavbar from "../../components/navbar/headerNavBar";
 import Footer from "../../components/footer/footer";
@@ -8,7 +7,6 @@ import Gallery from "@/components/gallery";
 import categoryData from "@/constants/categoryData";
 import { useState } from "react";
 import { Button } from "flowbite-react";
-
 
 export default function Home() {
 

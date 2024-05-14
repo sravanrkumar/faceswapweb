@@ -10,8 +10,10 @@ import { canvasPreview } from './canvasPreview'
 import { useDebounceEffect } from './useDebounceEffect'
 
 import 'react-image-crop/dist/ReactCrop.css'
-import Usepostimageupload from '@/hooks/UsePostImageUpload'
+import UseImageProcessApi from '@/hooks/UseImageProcessApi'
 import { Button } from 'flowbite-react'
+import { getEndpointUrl } from '@/constants/endpoints'
+import UseGetApi from '@/hooks/UseGetApi'
 // This is to demonstate how to make and center a % aspect crop
 // which is a bit trickier so we use some helper functions.
 function centerAspectCrop(
@@ -109,12 +111,30 @@ useEffect(()=>{
         formData.append('sourceImage', uploadedimage);
         formData.append('destImage', '');
        
-        const apiUrl = 'https://blackhashtech.com/upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor';
-        const res = await callapi(formData, apiUrl);
-        console.log('check');
-        console.log(res);
-        console.log('checked');
-        props.onDataReceived(res);
+        const apiUrl = getEndpointUrl('upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor');
+        const res = await imgProcessApi(formData, apiUrl);
+
+        if (res !== null && res !== undefined) {
+          const url_id = typeof res === 'string' ? res : '';
+          if (url_id !== '') {
+            const apiUrl = getEndpointUrl(`examples/results/NaturePhotoFramesandEditor/${url_id}`);
+            try {
+              const data = await UseGetApi(apiUrl);
+              props.onDataReceived(data);
+            } catch (error) {
+              console.error("Error occurred while fetching data:", error);
+              props.onDataReceived('');
+            }
+          } else {
+            console.error("Image uploaded is not correct");
+            props.onDataReceived('');
+          }
+        } else {
+          console.error("Response is null or undefined");
+          props.onDataReceived('');
+        }
+        
+       
       } else {
         // Handle case where uploadedimage is null
         console.error("No image uploaded");
@@ -165,8 +185,8 @@ useEffect(()=>{
         // Append the ReadStream to FormData
         formData.append('sourceImage', file);
         formData.append('destImage', '');
-        const apiUrl = 'https://blackhashtech.com/upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor';
-        const res =callapi(formData,apiUrl);
+        const apiUrl = getEndpointUrl('upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor');
+        const res =imgProcessApi(formData,apiUrl);
         props.onDataReceived(res);
         resolve();
       } catch (error) {
@@ -180,9 +200,9 @@ useEffect(()=>{
 const  CropImage=()=> {
   setcropstatus(!cropstatus);
 }
-const callapi = (formData :any,apiUrl:string)=>{
+const imgProcessApi = (formData :any,apiUrl:string)=>{
  
-  const res = Usepostimageupload(apiUrl,formData);
+  const res = UseImageProcessApi(apiUrl,formData);
   console.log(res);
 }
 
