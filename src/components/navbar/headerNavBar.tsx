@@ -13,7 +13,7 @@ const HeaderNavbar = () => {
         <b style={{fontSize:'24px'}}>Photo Lab Picture Editor & Art</b>
         <div className="header-social-links">
             <Link href="/" className="twitter"><Image src={"/assets/img/googleplay.png"} className="img-fluid" width={160} height={200} alt=""/></Link>
-            <Link href="/inner-page" className="facebook"><Image src={"/assets/img/appstore.png"} className="img-fluid" width={150} height={200} alt=""/></Link>
+            <Link href="/" className="facebook"><Image src={"/assets/img/appstore.png"} className="img-fluid" width={150} height={200} alt=""/></Link>
         </div>
         <i className="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
         <i className="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
