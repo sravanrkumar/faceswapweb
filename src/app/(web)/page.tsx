@@ -25,7 +25,7 @@ export default function Home() {
       })}
  </div>
           </div>
-   <div className="lg:w-[1024px] m-auto">
+   <div className="lg:w-[724px] m-auto">
     <Gallery categoryName={categoryName}/>
     <Banner/>
     <Footer/>
