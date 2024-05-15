@@ -230,7 +230,8 @@ const imgProcessApi = (formData :any,apiUrl:string)=>{
     [completedCrop, scale, rotate],
   )
   return (
-    <div className="App flex">
+    <div className="App ">
+      <div className='flex space-x-2 py-4'>
       <div className="Crop-Controls ">
         <input type="file" name='uploadedImg' accept="image/*" onChange={onSelectFile} />
        
@@ -238,16 +239,16 @@ const imgProcessApi = (formData :any,apiUrl:string)=>{
       {!!imgSrc && (
         <>
       <div className="Crop-Controls ">
-      <Button className="text-center btn-get-started text-black" onClick={onDownloadCropClick}>Submit</Button>
+      <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2" onClick={onDownloadCropClick}>Submit</button>
        
       </div>
       <div className="Crop-Controls " style={{display: cropstatus  ? 'block':'none'}}>
-      <Button className="text-center btn-get-started text-black" onClick={CropImage}>Crop Image</Button>
+      <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"  onClick={CropImage}>Crop Image</button>
        
       </div>
       </>
       )}
-     
+     </div>
         
       {!!imgSrc && (
         <>

@@ -29,13 +29,13 @@ interface CategoryDetails {
     }, [categoryName]);
   return (
     <>
-    <main id="main" style={{ paddingTop: '0px' }} data-aos="fade" data-aos-delay="1500">
+    <main id="main" data-aos="fade" data-aos-delay="1500">
       <div id="gallery" className="gallery">
-        <div className="container">
-          <div className="row gy-4 justify-content-center" data-masonry='{"percentPosition": true }'>
+        <div className="container m-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 justify-center" data-masonry='{"percentPosition": true }'>
           {categoryimgs && categoryimgs.slice(0, limit).map((CategoryDetails: any, itemIndex) => (
-            <div className="col-xl-4 col-lg-4 col-md-6" key={itemIndex}>
-              <div className="gallery-item h-100">
+            <div className="" key={itemIndex}>
+              <div className="gallery-item ">
                 <Link href={'image/' + categoryName + '/' + itemIndex}>
                   {CategoryDetails.url && CategoryDetails.url.toLowerCase().endsWith('.mp4') ? ( // Check if URL ends with .mp4
                     <video controls width={400} height={400}>
@@ -55,7 +55,8 @@ interface CategoryDetails {
             </div>
           ))}
           </div>
-          <div className="hero text-center" style={{paddingTop:'100px',paddingBottom:'50px',display: limit > categoryimgs.length  ? 'none':'' }}><Button  className="btn-get-started" onClick={()=>{setlimit(limit+5)}}>Load More...</Button>
+          <div className="my-6 text-center" style={{display: limit > categoryimgs.length  ? 'none':'' }}>
+          <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2" onClick={()=>{setlimit(limit+5)}}>Load More...</button>
           </div>
         </div>
       </div>
