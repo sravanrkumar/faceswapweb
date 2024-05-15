@@ -39,6 +39,7 @@ function centerAspectCrop(
 export default function App(props:any) {
   const catfoldername = props.catfoldername;
   const catimagename = props.catimagename;
+  const  openImageModal  = props.openImageModal;
   const [imgSrc, setImgSrc] = useState('')
   const previewCanvasRef = useRef<HTMLCanvasElement>(null)
   const imgRef = useRef<HTMLImageElement>(null)
@@ -52,9 +53,10 @@ export default function App(props:any) {
   const [uploadimg, setuploadimg] = useState('')
   const [cropstatus, setcropstatus] = useState(false)
   const [uploadedimage,setuploadedimage] = useState<File | null>(null);
+  const [ImageSrc,setImageSrc]= useState('')
 useEffect(()=>{
-  
-},[imgSrc])
+  setImgSrc('');
+},[openImageModal])
 
   function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files.length > 0) {
@@ -119,45 +121,19 @@ useEffect(()=>{
         if (res !== null && res !== undefined) {
           const url_id = typeof res === 'number' ? res : '';
           if (url_id !== '') {
-            //const apiUrl = `http://164.52.194.62:9096/examples/results/NaturePhotoFramesandEditor/${url_id}`;
             try {
-           
-                const apiUrl = `http://164.52.194.62:9096/examples/results/NaturePhotoFramesandEditor/${url_id}`;
-                let blob1: Blob | null = null; // Initialize blob1 to null
-                
                 await delay(10000); // 10-second delay
-                const data = await UseGetApi(apiUrl);
-           
-              if (data && data.data != null && data.data != '') {
-                  if (data.data instanceof Blob) {
-                    blob1 = data.data;
-                  } else {
-                      //blob1 = new Blob([data.data], { type: 'image/jpeg' });
-                      // Convert byteArray to Uint8Array
-                      const uint8Array = new Uint8Array(data.data);
-
-                      // Create a Blob from Uint8Array
-                      const blob1 = new Blob([uint8Array], { type: 'application/octet-stream' });
-                  }
-
-                  if (blob1) {
-                      // Create object URL from the Blob
-                      var urlCreator = window.URL || window.webkitURL;
-                      const url = urlCreator.createObjectURL(blob1);
-                      const link = document.createElement('a');
-                      link.href = url;
-                      link.setAttribute('download', 'image.jpeg');
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
-                      window.URL.revokeObjectURL(url);
-
-                  }
-                  //props.onDataReceived(data.data);
-              }
-
-                
-                  //props.onDataReceived(data.data);
+                const apiUrl = `http://164.52.194.62:9096/examples/results/NaturePhotoFramesandEditor/953365.7167202904`;
+                const response = await fetch(apiUrl);
+                const imageArrayBuffer = await response.arrayBuffer();
+                      const base64String = btoa(
+                        new Uint8Array(imageArrayBuffer)
+                          .reduce((data, byte) => data + String.fromCharCode(byte), '')
+                      );
+                      base64String
+                    // Create a blob from the base64 string
+                 const blob = new Blob([Uint8Array.from(atob(base64String), c => c.charCodeAt(0))], { type: 'image/jpeg' });
+                  props.onDataReceived(blob);
                 
             } catch (error) {
               console.error("Error occurred while fetching data:", error);
@@ -228,40 +204,19 @@ useEffect(()=>{
         if (res !== null && res !== undefined) {
           const url_id = typeof res === 'string' ? res : '';
           if (url_id !== '') {
-            //const apiUrl = `http://164.52.194.62:9096/examples/results/NaturePhotoFramesandEditor/${url_id}`;
             try {
-              //const data = await UseGetApi(apiUrl);
-              const apiUrl = `http://164.52.194.62:9096/examples/results/NaturePhotoFramesandEditor/${url_id}`;
-              let blob1: Blob | null = null; // Initialize blob1 to null
-              
-             
               await delay(10000); // 10-second delay
-                const data = await UseGetApi(apiUrl);
-                if (data && data.data != null && data.data != '') {
-                    // Create a new Blob with the correct MIME type
-                    if (data.data instanceof Blob) {
-                      blob1 = data.data;
-                    } else {
-                        blob1 = new Blob([data.data], { type: 'image/jpeg' });
-                    }
-                
-                    if (blob1) {
-                        // Create object URL from the Blob
-                        var urlCreator = window.URL || window.webkitURL;
-                        const url = urlCreator.createObjectURL(blob1);
-                        const link = document.createElement('a');
-                        link.href = url;
-                        link.setAttribute('download', 'image.jpeg');
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        window.URL.revokeObjectURL(url);
-
-                    }
-                    //props.onDataReceived(data.data);
-                }
-                
-              // props.onDataReceived(data);
+              const apiUrl = `http://164.52.194.62:9096/examples/results/NaturePhotoFramesandEditor/953365.7167202904`;
+              const response = await fetch(apiUrl);
+              const imageArrayBuffer = await response.arrayBuffer();
+                    const base64String = btoa(
+                      new Uint8Array(imageArrayBuffer)
+                        .reduce((data, byte) => data + String.fromCharCode(byte), '')
+                    );
+                    base64String
+                  // Create a blob from the base64 string
+               const blob = new Blob([Uint8Array.from(atob(base64String), c => c.charCodeAt(0))], { type: 'image/jpeg' });
+                props.onDataReceived(blob);
             } catch (error) {
               console.error("Error occurred while fetching data:", error);
               props.onDataReceived('');
@@ -283,44 +238,6 @@ useEffect(()=>{
       }
     });
     }
-}
-async function checkimage () {
-      //const data = await UseGetApi(apiUrl);
-      const apiUrl = `http://164.52.194.62:9096/examples/results/NaturePhotoFramesandEditor/953365.7167202904`;
-      let blob1: Blob | null = null; // Initialize blob1 to null
-        const data : any = await UseGetApi(apiUrl);
-      
-        if (data && data.data != null && data.data != '') {
-            // Create a new Blob with the correct MIME type
-          console.log(data.data)
-            if (data.data instanceof Blob) {
-              blob1 = data.data;
-            } else {
-              
-                 const uint8Array = new Uint8Array(data.data);
-                 // Create a Blob from the Uint8Array
-                 blob1 = new Blob([uint8Array.buffer], { type: 'image/jpeg' });
-            }
-            
-            if (blob1) {
-                // Create object URL from the Blob
-                var urlCreator = window.URL || window.webkitURL;
-                const url = urlCreator.createObjectURL(data.data);
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', 'image.jpeg');
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                window.URL.revokeObjectURL(url);
-
-            }
-            //props.onDataReceived(data.data);
-        }
-        
-      // props.onDataReceived(data);
- 
-    return;
 }
 const  CropImage=()=> {
   setcropstatus(!cropstatus);
@@ -360,13 +277,13 @@ const imgProcessApi = (formData :any,apiUrl:string)=>{
       <div className='flex space-x-2 py-4'>
       <div className="Crop-Controls ">
         <input type="file" name='uploadedImg' accept="image/*" onChange={onSelectFile} />
-       
+        
       </div>
       {!!imgSrc && (
         <>
       <div className="Crop-Controls ">
       <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2" onClick={onDownloadCropClick}>Submit</button>
-       
+      {openImageModal+ catimagename}
       </div>
       <div className="Crop-Controls " style={{display: cropstatus  ? 'block':'none'}}>
       <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"  onClick={CropImage}>Crop Image</button>
@@ -377,7 +294,7 @@ const imgProcessApi = (formData :any,apiUrl:string)=>{
      </div>
         
       {!!imgSrc && (
-        <>
+        <> 
           <ReactCrop 
           style={{ width: '100%', height: 'auto',display: !cropstatus  ? 'block':'none'}}
             crop={crop}

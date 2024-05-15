@@ -17,12 +17,12 @@ interface categoryPageProps {
   
 export default function image(props: categoryPageProps) {
   
-  const [openImageModal, setOpenImageModal] = useState(false);
+  const [openImageModal, setOpenImageModal] = useState(0);
   const [catImg, setCatImg] = useState('');
   const [catfoldername, setcatfoldername] = useState('');
   const [catimagename, setcatimagename] = useState('');
   const [receivedData, setReceivedData] = useState('');
-  const [genratedimageUrl, setgenratedimageUrl] = useState<File | string | null>(null);
+  const [genratedimageUrl, setgenratedimageUrl] = useState<File | Blob | null>(null);
   const [loading, setLoading] = useState(true); // State to track loading
   const categoryName: string = props?.params?.category;
   const id = props?.params?.id;
@@ -37,33 +37,21 @@ export default function image(props: categoryPageProps) {
    setLoading(false);
   }
 },[categoryName]);
-const handleDataReceived = (data:File) => {
+const handleDataReceived = (data:any) => {
   // Handle the received data from the child component
   setgenratedimageUrl(data);
-  
+  setOpenImageModal(0);
 };
 const handleDownload = async () => {
   
   if (genratedimageUrl) {
-    let blob: Blob;
-    if (typeof genratedimageUrl === 'string') {
-      // Fetch the image URL and convert it to a Blob
-      const response = await fetch(genratedimageUrl);
-      blob = await response.blob();
-    } else {
-      // Convert the File to a Blob
-      blob = genratedimageUrl.slice(0, genratedimageUrl.size, 'image/jpeg');
-    }
-
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'image.jpg'); // Set the filename for the downloaded file
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  } else {
-    console.log('Please enter a valid image URL');
+   // Create a temporary anchor element to trigger the download
+const downloadLink = document.createElement('a');
+downloadLink.href = URL.createObjectURL(genratedimageUrl);
+downloadLink.download = 'image.jpg';
+document.body.appendChild(downloadLink);
+downloadLink.click();
+document.body.removeChild(downloadLink);
   }
 };
 
@@ -92,10 +80,10 @@ const handleDownload = async () => {
         
         </div>
         <div className="hero text-center my-6">
-        <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2" onClick={()=>{setOpenImageModal(true)}}> Apply to your photo</button>
+        <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2" onClick={()=>{setOpenImageModal(1);setgenratedimageUrl(null)}}> Apply to your photo</button>
         </div>
-        <div className="hero text-center" style={{paddingTop:'50px',paddingBottom:'50px',minHeight:'auto', display:genratedimageUrl ==''?'none':''}}>
-        <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"  onClick={()=>{handleDownload}}>Download Image</button>
+        <div className="hero text-center" style={{paddingTop:'50px',paddingBottom:'50px',minHeight:'auto', display:genratedimageUrl ==null?'none':''}}>
+        <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"  onClick={handleDownload}>Download Image</button>
         </div>
     
       </div>
@@ -107,14 +95,14 @@ const handleDownload = async () => {
   
 
 
-      <div id="default-modal"  className="${openImageModal ? 'visible' : 'hidden'}   overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div className="relative p-4 w-full max-w-2xl max-h-full">
+      <div id="default-modal"  className={`overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full ${openImageModal === 1 ? 'visible' : 'hidden'}`}>
+    <div className="relative p-4 w-full max-w-2xl max-h-full m-auto">
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                    Upload an Image
                 </h3>
-                <button type="button" onClick={()=>{setOpenImageModal(false)}} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
+                <button type="button" onClick={()=>{setOpenImageModal(0)}} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
                     <svg className="w-3 h-3"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                     </svg>
@@ -123,10 +111,10 @@ const handleDownload = async () => {
             </div>
             <div className="p-4 md:p-5 space-y-4">
                 
-                <App catfoldername={catfoldername} catimagename={catimagename} onDataReceived={handleDataReceived}/>
+                <App catfoldername={catfoldername}  openImageModal={openImageModal} catimagename={catimagename} onDataReceived={handleDataReceived}/>
             </div>
             <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <button data-modal-hide="default-modal" type="button" onClick={()=>{setOpenImageModal(false)}} className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Cancel</button>
+                <button data-modal-hide="default-modal" type="button" onClick={()=>{setOpenImageModal(0)}} className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Cancel</button>
             </div>
         </div>
     </div>
