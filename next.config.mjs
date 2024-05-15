@@ -15,8 +15,8 @@ const nextConfig = {
             pathname: "/**",
           },
           {
-            protocol: "http",
-            hostname: "164.52.194.62:9096",
+            protocol: "https",
+            hostname: "faceswapweb.onrender.com",
             port: "",
             pathname: "/**",
           },
