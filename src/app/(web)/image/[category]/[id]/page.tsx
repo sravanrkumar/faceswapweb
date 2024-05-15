@@ -22,7 +22,7 @@ export default function image(props: categoryPageProps) {
   const [catfoldername, setcatfoldername] = useState('');
   const [catimagename, setcatimagename] = useState('');
   const [receivedData, setReceivedData] = useState('');
-  const [genratedimageUrl, setgenratedimageUrl] = useState('');
+  const [genratedimageUrl, setgenratedimageUrl] = useState<File | string | null>(null);
   const [loading, setLoading] = useState(true); // State to track loading
   const categoryName: string = props?.params?.category;
   const id = props?.params?.id;
@@ -37,17 +37,28 @@ export default function image(props: categoryPageProps) {
    setLoading(false);
   }
 },[categoryName]);
-const handleDataReceived = (data:string) => {
+const handleDataReceived = (data:File) => {
   // Handle the received data from the child component
   setgenratedimageUrl(data);
   
 };
-const handleDownload = () => {
+const handleDownload = async () => {
+  
   if (genratedimageUrl) {
-    // Create a dummy <a> element
+    let blob: Blob;
+    if (typeof genratedimageUrl === 'string') {
+      // Fetch the image URL and convert it to a Blob
+      const response = await fetch(genratedimageUrl);
+      blob = await response.blob();
+    } else {
+      // Convert the File to a Blob
+      blob = genratedimageUrl.slice(0, genratedimageUrl.size, 'image/jpeg');
+    }
+
+    const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.href = genratedimageUrl;
-    link.download = 'image.jpg';
+    link.href = url;
+    link.setAttribute('download', 'image.jpg'); // Set the filename for the downloaded file
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -55,6 +66,7 @@ const handleDownload = () => {
     console.log('Please enter a valid image URL');
   }
 };
+
   return (
     <>
     <HeaderNavbar/>

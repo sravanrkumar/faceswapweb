@@ -85,6 +85,7 @@ useEffect(()=>{
         reader.readAsDataURL(e.target.files[0])
         setuploadedimage(e.target.files[0]);
         const image = new Image();
+        
         image.src = URL.createObjectURL(e.target.files[0]);
         image.onload = () => {
           const width = image.width;
@@ -101,6 +102,7 @@ useEffect(()=>{
     }
   }
   async function onDownloadCropClick() {
+    
     const image = imgRef.current;
     const previewCanvas = previewCanvasRef.current;
     
@@ -111,16 +113,52 @@ useEffect(()=>{
         formData.append('sourceImage', uploadedimage);
         formData.append('destImage', '');
        
-        const apiUrl = getEndpointUrl('upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor');
+        const apiUrl = 'http://164.52.194.62:9096/upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor';
         const res = await imgProcessApi(formData, apiUrl);
 
         if (res !== null && res !== undefined) {
-          const url_id = typeof res === 'string' ? res : '';
+          const url_id = typeof res === 'number' ? res : '';
           if (url_id !== '') {
-            const apiUrl = getEndpointUrl(`examples/results/NaturePhotoFramesandEditor/${url_id}`);
+            //const apiUrl = `http://164.52.194.62:9096/examples/results/NaturePhotoFramesandEditor/${url_id}`;
             try {
-              const data = await UseGetApi(apiUrl);
-              props.onDataReceived(data);
+           
+                const apiUrl = `http://164.52.194.62:9096/examples/results/NaturePhotoFramesandEditor/${url_id}`;
+                let blob1: Blob | null = null; // Initialize blob1 to null
+                
+                await delay(10000); // 10-second delay
+                const data = await UseGetApi(apiUrl);
+           
+              if (data && data.data != null && data.data != '') {
+                  if (data.data instanceof Blob) {
+                    blob1 = data.data;
+                  } else {
+                      //blob1 = new Blob([data.data], { type: 'image/jpeg' });
+                      // Convert byteArray to Uint8Array
+                      const uint8Array = new Uint8Array(data.data);
+
+                      // Create a Blob from Uint8Array
+                      const blob1 = new Blob([uint8Array], { type: 'application/octet-stream' });
+                  }
+
+                  if (blob1) {
+                      // Create object URL from the Blob
+                      var urlCreator = window.URL || window.webkitURL;
+                      const url = urlCreator.createObjectURL(blob1);
+                      const link = document.createElement('a');
+                      link.href = url;
+                      link.setAttribute('download', 'image.jpeg');
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                      window.URL.revokeObjectURL(url);
+
+                  }
+                  //props.onDataReceived(data.data);
+              }
+
+                
+                  //props.onDataReceived(data.data);
+                
             } catch (error) {
               console.error("Error occurred while fetching data:", error);
               props.onDataReceived('');
@@ -185,9 +223,58 @@ useEffect(()=>{
         // Append the ReadStream to FormData
         formData.append('sourceImage', file);
         formData.append('destImage', '');
-        const apiUrl = getEndpointUrl('upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor');
+        const apiUrl = 'http://164.52.194.62:9096/upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor';
         const res =imgProcessApi(formData,apiUrl);
-        props.onDataReceived(res);
+        if (res !== null && res !== undefined) {
+          const url_id = typeof res === 'string' ? res : '';
+          if (url_id !== '') {
+            //const apiUrl = `http://164.52.194.62:9096/examples/results/NaturePhotoFramesandEditor/${url_id}`;
+            try {
+              //const data = await UseGetApi(apiUrl);
+              const apiUrl = `http://164.52.194.62:9096/examples/results/NaturePhotoFramesandEditor/${url_id}`;
+              let blob1: Blob | null = null; // Initialize blob1 to null
+              
+             
+              await delay(10000); // 10-second delay
+                const data = await UseGetApi(apiUrl);
+                if (data && data.data != null && data.data != '') {
+                    // Create a new Blob with the correct MIME type
+                    if (data.data instanceof Blob) {
+                      blob1 = data.data;
+                    } else {
+                        blob1 = new Blob([data.data], { type: 'image/jpeg' });
+                    }
+                
+                    if (blob1) {
+                        // Create object URL from the Blob
+                        var urlCreator = window.URL || window.webkitURL;
+                        const url = urlCreator.createObjectURL(blob1);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', 'image.jpeg');
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        window.URL.revokeObjectURL(url);
+
+                    }
+                    //props.onDataReceived(data.data);
+                }
+                
+              // props.onDataReceived(data);
+            } catch (error) {
+              console.error("Error occurred while fetching data:", error);
+              props.onDataReceived('');
+            }
+          } else {
+            console.error("Image uploaded is not correct");
+            props.onDataReceived('');
+          }
+        } else {
+          console.error("Response is null or undefined");
+          props.onDataReceived('');
+        }
+
         resolve();
       } catch (error) {
         console.error('Error uploading cropped image:', error);
@@ -197,13 +284,52 @@ useEffect(()=>{
     });
     }
 }
+async function checkimage () {
+      //const data = await UseGetApi(apiUrl);
+      const apiUrl = `http://164.52.194.62:9096/examples/results/NaturePhotoFramesandEditor/953365.7167202904`;
+      let blob1: Blob | null = null; // Initialize blob1 to null
+        const data : any = await UseGetApi(apiUrl);
+      
+        if (data && data.data != null && data.data != '') {
+            // Create a new Blob with the correct MIME type
+          console.log(data.data)
+            if (data.data instanceof Blob) {
+              blob1 = data.data;
+            } else {
+              
+                 const uint8Array = new Uint8Array(data.data);
+                 // Create a Blob from the Uint8Array
+                 blob1 = new Blob([uint8Array.buffer], { type: 'image/jpeg' });
+            }
+            
+            if (blob1) {
+                // Create object URL from the Blob
+                var urlCreator = window.URL || window.webkitURL;
+                const url = urlCreator.createObjectURL(data.data);
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'image.jpeg');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+
+            }
+            //props.onDataReceived(data.data);
+        }
+        
+      // props.onDataReceived(data);
+ 
+    return;
+}
 const  CropImage=()=> {
   setcropstatus(!cropstatus);
 }
 const imgProcessApi = (formData :any,apiUrl:string)=>{
- 
+  console.log(apiUrl);
   const res = UseImageProcessApi(apiUrl,formData);
   console.log(res);
+  return res;
 }
 
   useDebounceEffect(
@@ -290,4 +416,8 @@ const imgProcessApi = (formData :any,apiUrl:string)=>{
 }
 function doOCR(arg0: string) {
   throw new Error('Function not implemented.')
+}
+// Function to simulate a 10-second delay
+function delay(ms:any) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
