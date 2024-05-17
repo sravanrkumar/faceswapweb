@@ -24,8 +24,8 @@ const HeaderNavbar = () => {
 <nav className="p-2 w-full  border-b border-gray-900">
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
   <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-      <img src="/assets/img/faceswap_logo.png" className="h-20" alt="Flowbite Logo"/>
-      <span className="self-center text-2xl font-semibold whitespace-nowrap ">Faceswapmagic</span>
+      <img src="/assets/img/logo2.png" className="h-8" alt="Flowbite Logo"/>
+      {/* <span className="self-center text-2xl font-semibold whitespace-nowrap ">Faceswapmagic</span> */}
   </Link>
   <div className="flex md:order-2 space-x-3 ">
             <Link href="https://play.google.com/store/apps/details?id=com.hangoverstudios.faceswap.ai.art.avatar.generator" target="_blank" className="twitter"><Image src={"/assets/img/googleplay.png"} className="img-fluid" width={130} height={200} alt=""/></Link>
