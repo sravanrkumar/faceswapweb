@@ -24,7 +24,7 @@ const HeaderNavbar = () => {
 <nav className="p-2 w-full  border-b border-gray-900">
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
   <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-      {/* <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo"/> */}
+      <img src="/assets/img/faceswap_logo.png" className="h-20" alt="Flowbite Logo"/>
       <span className="self-center text-2xl font-semibold whitespace-nowrap ">Faceswapmagic</span>
   </Link>
   <div className="flex md:order-2 space-x-3 ">
@@ -37,9 +37,7 @@ const HeaderNavbar = () => {
         </svg>
     </button>
   </div>
-  <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-  <b>Photo Lab Picture Editor & Art</b>
-  </div>
+
   </div>
 </nav>
 
