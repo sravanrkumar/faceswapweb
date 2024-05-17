@@ -17,8 +17,8 @@ const Banner = () => {
             <p className="mb-2">READY TO GET STARTED?</p>
             <h2 className="heading-title">Helping people organise online businesses</h2>
             <div className="button-list mt-3 mt-lg-0 flex">
-              <Image src={"/assets/img/googleplay.png"} className="img-fluid" width={150} height={200} alt=""/>
-              <Image src={"/assets/img/appstore.png"} className="img-fluid" width={150} height={200} alt="" style={{ marginLeft:'10px'}}/>
+            <Link href="https://play.google.com/store/apps/details?id=com.hangoverstudios.faceswap.ai.art.avatar.generator" target="_blank" className="twitter"><Image src={"/assets/img/googleplay.png"} className="img-fluid" width={150} height={200} alt=""/></Link>
+            <Link href="https://apps.apple.com/in/app/face-swap-magic-ai-avatars/id6479648021" className="facebook" target="_blank"> <Image src={"/assets/img/appstore.png"} className="img-fluid" width={150} height={200} alt="" style={{ marginLeft:'10px'}}/></Link>
             </div>
             </div>
           </div>

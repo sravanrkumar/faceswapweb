@@ -252,7 +252,7 @@ const imgProcessApi = (formData :any,apiUrl:string)=>{
   useDebounceEffect(
   
     async () => {
-      setcropstatus(true);
+      //setcropstatus(true);
       if (
         completedCrop?.width &&
         completedCrop?.height &&
@@ -296,7 +296,7 @@ const imgProcessApi = (formData :any,apiUrl:string)=>{
       {!!imgSrc && (
         <> 
           <ReactCrop 
-          style={{ width: '100%', height: 'auto',display: !cropstatus  ? 'block':'none'}}
+          style={{ width: '100%', height: 'auto'}}
             crop={crop}
             onChange={(_, percentCrop) => setCrop(percentCrop)}
             onComplete={(c) => setCompletedCrop(c)}
@@ -312,7 +312,7 @@ const imgProcessApi = (formData :any,apiUrl:string)=>{
             
           </ReactCrop>
           {completedCrop && (
-            <div style={{display: cropstatus  ? 'block':'none'}}>
+            <div style={{display:'none'}}>
               <canvas
                 ref={previewCanvasRef}
                 style={{

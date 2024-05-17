@@ -2,7 +2,6 @@ import axios from "axios";
 
 const UseImageProcessApi = async (url:string, data:any) => {
   try {
-    console.log("Uploading image...");
     const response = await axios.post(url, data, {
       headers: {
         'accept': 'application/json',
