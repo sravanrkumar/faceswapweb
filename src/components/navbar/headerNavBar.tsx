@@ -24,7 +24,7 @@ const HeaderNavbar = () => {
 <nav className="p-2 w-full  border-b border-gray-900">
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
   <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-      <img src="/assets/img/faceswap_logo.png" className="h-16" alt="Flowbite Logo"/>
+      <img src="/assets/img/faceswapmagic_logo.png" className="h-16" alt="Flowbite Logo"/>
       <span className="self-center text-2xl font-semibold whitespace-nowrap ">Faceswapmagic</span>
   </Link>
   <div className="flex md:order-2 space-x-3 ">

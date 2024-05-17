@@ -7840,7 +7840,7 @@ const categoryData ={
         }
     },
     "Black and White": {
-        "blackwhite_urls": [
+        "blackandwhite_urls": [
             {
                 "tag": "old",
                 "user_type": "pro",
@@ -9131,7 +9131,7 @@ const categoryData ={
         }
     },
     "Retro": {
-        "urls": [
+        "retro_urls": [
             {
                 "tag": "old",
                 "user_type": "pro",
