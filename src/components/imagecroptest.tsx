@@ -58,14 +58,14 @@ const Imagecroptest = (props:any) => {
     const formData = new FormData();
     formData.append('sourceImage', file);
     formData.append('destImage', '');
-    const apiUrl = 'https://blackhashtech.com/upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor';
+    const apiUrl = 'http://216.48.189.156:9098/upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor';
     const res = await imgProcessApi(formData,apiUrl);
     if (res !== null && res !== undefined ) {
       const url_id = res ;
       if (!isNaN(url_id )) {
         try {
           await delay(10000); // 10-second delay
-          const apiUrl = `https://blackhashtech.com/examples/results/NaturePhotoFramesandEditor/${url_id}`;
+          const apiUrl = `http://216.48.189.156:9098/examples/results/NaturePhotoFramesandEditor/${url_id}`;
           const response = await fetch(apiUrl);
           const imageArrayBuffer = await response.arrayBuffer();
                 const base64String = btoa(

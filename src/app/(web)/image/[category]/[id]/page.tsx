@@ -35,8 +35,9 @@ export default function image(props: categoryPageProps) {
     const categoryUrl = trendingCategory[categoryName.replace(/\s/g, '').toLowerCase() + "_urls"][id]['url'];
     setCatImg(categoryUrl);
    const urlSplite =  categoryUrl.split('/');
-   setcatfoldername( urlSplite[4]);
-   setcatimagename( urlSplite[5]);
+   const folderimg = urlSplite.slice(-2);
+   setcatfoldername(folderimg[0]);
+   setcatimagename(folderimg[1]);
    setLoading(false);
   }
 },[categoryName]);

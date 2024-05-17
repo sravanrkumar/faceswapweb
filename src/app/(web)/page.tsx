@@ -9,7 +9,7 @@ import { useState } from "react";
 export default function Home() {
 
   const keys = Object.keys(categoryData);
-  const [categoryName,setcategoryName] =useState(keys[1]);
+  const [categoryName,setcategoryName] =useState(keys[0]);
   return (
     <>
     <HeaderNavbar/>
