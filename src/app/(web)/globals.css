@@ -330,7 +330,7 @@ h6 {
     
     .crop-container {
       position: absolute;
-      top: 18%;
+      top: 50px;
       left: 0;
       right: 0;
       bottom: 80px;

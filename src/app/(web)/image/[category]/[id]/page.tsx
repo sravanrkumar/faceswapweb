@@ -67,7 +67,7 @@ const handleDownload = async () => {
   return (
     <>
     <HeaderNavbar/>
-    <div className="container lg:w-[824px] m-auto">
+    <div className="container lg:w-[724px] m-auto">
     <main id="main" data-aos="fade" data-aos-delay="1500" style={{paddingTop:'20px'}}>
       <div>
         <div className={`grid  gap-1 justify-items-center ${genratedimageUrl != null ? 'grid-cols-2' : 'grid-cols-1'}`}>
@@ -85,14 +85,14 @@ const handleDownload = async () => {
           <div className="items-end">
             <Image src={catImg} width={300} height={400} className="img-fluid rounded" alt=""/>
             {genratedimageUrl != null &&(
-            <p className="justify-items-center text-center" >Original Image</p>
+            <p className="justify-items-center text-center mt-2" >Original Image</p>
           )}
           </div>
           {genratedimageUrl != null && ( 
           <div className="">
             <Image src={URL.createObjectURL(genratedimageUrl)} width={300} height={400} className="img-fluid rounded" alt=""/>
             {genratedimageUrl != null &&(
-            <p className="justify-items-center text-center" >Generated Image</p>
+            <p className="justify-items-center text-center mt-2" >Generated Image</p>
           )}
           </div>
             )}
