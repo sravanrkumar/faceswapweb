@@ -58,7 +58,13 @@ const handleDownload = async () => {
    // Create a temporary anchor element to trigger the download
     const downloadLink = document.createElement('a');
     downloadLink.href = URL.createObjectURL(genratedimageUrl);
-    downloadLink.download = 'image.jpg';
+    const ext = catimagename.split('.');
+    if (ext[1] == 'gif') {
+      downloadLink.download = 'image.mp4';
+    } else {
+      downloadLink.download = 'image.jpg';
+    }
+  
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
@@ -90,11 +96,19 @@ const handleDownload = async () => {
           )}
           </div>
           {genratedimageUrl != null && ( 
+            
           <div className="">
+           { catImg && catImg.toLowerCase().endsWith('.gif') ? (
+             <video controls width={300} height={400} >
+             <source src={URL.createObjectURL(genratedimageUrl)} type="video/mp4" />
+           </video>
+           ) : (
             <Image src={URL.createObjectURL(genratedimageUrl)} width={300} height={400} className="img-fluid rounded" alt=""/>
+           ) }
             {genratedimageUrl != null &&(
             <p className="justify-items-center text-center mt-2" >Generated Image</p>
-          )}
+         
+         )}
           </div>
             )}
           </>
