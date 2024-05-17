@@ -20,6 +20,18 @@ const nextConfig = {
             port: "",
             pathname: "/**",
           },
+          {
+            protocol: "http",
+            hostname: "faceswapmagic.com",
+            port: "",
+            pathname: "/**",
+          },
+          {
+            protocol: "https",
+            hostname: "faceswapmagic.com",
+            port: "",
+            pathname: "/**",
+          },
         ],
       },
 };

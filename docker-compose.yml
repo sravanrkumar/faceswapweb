@@ -1,0 +1,13 @@
+version: "3.5"
+services:
+app:
+  web:
+    build:
+    context: .
+    dockerfile: Dockefile
+    container_name: nextjs-app
+    ports:
+      - "3000:3800"
+    volumes:
+      - .:/pixellweb
+      - /pixellweb/node_modules
