@@ -28,7 +28,7 @@ export default function image(props: categoryPageProps) {
   const [loading, setLoading] = useState(true); // State to track loading
   const [uploadedImage, setUploadedImage] = useState<File | null>(null); // State to track loading
   const [errorDisplay, setErrorDisplay] = useState<string>(''); // State to track loading
-  const categoryName: string = props?.params?.category;
+  const categoryName: string = props?.params?.category.replace(/_/g, ' ');
   const id = props?.params?.id;
   useEffect(() => {
   if (categoryData.hasOwnProperty(categoryName)) {

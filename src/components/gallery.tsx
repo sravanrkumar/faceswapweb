@@ -35,7 +35,7 @@ interface CategoryDetails {
           {categoryimgs && categoryimgs.slice(0, limit).map((CategoryDetails: any, itemIndex) => (
             <div className="" key={itemIndex}>
               <div className="gallery-item ">
-                <Link href={'image/' + categoryName + '/' + itemIndex}>
+                <Link href={'image/' + categoryName.replace(/\s/g, '_') + '/' + itemIndex}>
                   {CategoryDetails.url && CategoryDetails.url.toLowerCase().endsWith('.mp4') ? ( // Check if URL ends with .mp4
                     <video controls width={400} height={400}>
                       <source src={CategoryDetails.url} type="video/mp4" />
