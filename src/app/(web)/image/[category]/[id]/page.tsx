@@ -74,8 +74,7 @@ const handleDownload = async () => {
 
   return (
     <>
-    <HeaderNavbar/>
-    <Header/>
+ 
     <div className="container lg:w-[724px] m-auto">
     <main id="main" data-aos="fade" data-aos-delay="1500" style={{paddingTop:'20px'}}>
       <div>
@@ -151,7 +150,7 @@ const handleDownload = async () => {
      
     </main>
     <Banner/>
-    <Footer/>
+    
     </div>
   { openImageModal == 1 && (
     <Imagecroptest uploadedImage={uploadedImage} catfoldername={catfoldername}  openImageModal={openImageModal} catimagename={catimagename} onDataReceived={handleDataReceived} />

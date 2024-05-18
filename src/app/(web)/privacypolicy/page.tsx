@@ -1,16 +1,9 @@
 "use client";
-import HeaderNavbar from "@/components/navbar/headerNavBar";
-import Footer from "@/components/footer/footer";
-import Header from "@/components/header/header";
-
-  
-  
 export default function Privacypolicy() {
 
   return (
     <>
-     <HeaderNavbar/>
-     <Header/>
+ 
      <div className="w-[724px] m-auto mt-6"> 
   <h1 className="text-xl font-bold">Privacy Policy</h1>
   <h2 className="mt-6">
@@ -858,7 +851,7 @@ export default function Privacypolicy() {
   </p>
 
 </div>
-     <Footer/>
+     
     </>
   );
  }

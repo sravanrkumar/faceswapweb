@@ -1,16 +1,10 @@
 "use client";
-import HeaderNavbar from "@/components/navbar/headerNavBar";
-import Footer from "@/components/footer/footer";
-import Header from "@/components/header/header";
 
-  
-  
 export default function Termsandconditions() {
 
   return (
     <>
-     <HeaderNavbar/>
-     <Header/>
+
   <div className="w-[724px] m-auto mt-6"> 
   <h1  className="text-xl font-bold" >Terms and Conditions</h1>
   <h2>
@@ -716,7 +710,7 @@ export default function Termsandconditions() {
   </p>
   </div>
 
-     <Footer/>
+   
     </>
   );
  }
