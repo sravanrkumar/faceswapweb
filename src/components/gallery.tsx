@@ -16,7 +16,7 @@ interface CategoryDetails {
     const [categoryimgs, setcategoryimgs] = useState([]);
     const [limit, setlimit] = useState(12);
     
-    const categoryName: string = props.categoryName;
+    const categoryName: string = props.categoryName.replace(/_/g, ' ');
     
     useEffect(() => {
         if (categoryData.hasOwnProperty(categoryName)) {
@@ -24,7 +24,6 @@ interface CategoryDetails {
             const categoryUrl = trendingCategory[categoryName.replace(/\s/g, '').toLowerCase() + "_urls"];            
             setlimit(12);
             setcategoryimgs(categoryUrl)
-        
         }
     }, [categoryName]);
   return (

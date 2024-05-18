@@ -61,8 +61,7 @@ const Imagecroptest = (props:any) => {
     const ext = catimagename.split('.');
     let apiUrl;
     if (ext[1] == 'gif') {
-      formData.append('user_type', 'free');
-       apiUrl = 'http://216.48.189.156:9098/upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor';
+       apiUrl = 'http://216.48.189.156:9098/upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor&user_type=free';
     } else {
        apiUrl = 'http://164.52.194.62:9096/upload/'+catfoldername+'/'+catimagename+'?app_name=NaturePhotoFramesandEditor';
     }
@@ -92,7 +91,8 @@ const Imagecroptest = (props:any) => {
             setloader(false);
         } catch (error) {
           setloader(false);
-          props.onDataReceived(error);       
+          props.onDataReceived(error);    
+          props.onDataReceived("Server side error.Please try after some time.");   
         }
       } else {
         setloader(false);

@@ -9,6 +9,7 @@ import UseImageProcessApi from "@/hooks/UseImageProcessApi";
 import { useEffect, useState } from "react";
 import App from "@/components/imagecrop";
 import Imagecroptest from "@/components/imagecroptest";
+import Header from "@/components/header/header";
 interface categoryPageProps {
   params: {
     category: string;
@@ -74,6 +75,7 @@ const handleDownload = async () => {
   return (
     <>
     <HeaderNavbar/>
+    <Header/>
     <div className="container lg:w-[724px] m-auto">
     <main id="main" data-aos="fade" data-aos-delay="1500" style={{paddingTop:'20px'}}>
       <div>
