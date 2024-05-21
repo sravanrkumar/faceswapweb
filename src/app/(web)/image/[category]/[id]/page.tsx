@@ -1,15 +1,11 @@
 "use client";
 import Image from "next/image";
-import HeaderNavbar from "@/components/navbar/headerNavBar";
-import Footer from "@/components/footer/footer";
 import Banner from "@/components/banner/banner";
-import { Modal,Button, Spinner } from "flowbite-react";
 import categoryData from "@/constants/categoryData";
-import UseImageProcessApi from "@/hooks/UseImageProcessApi";
 import { useEffect, useState } from "react";
-import App from "@/components/imagecrop";
 import Imagecroptest from "@/components/imagecroptest";
-import Header from "@/components/header/header";
+import { Spinner } from "flowbite-react";
+
 interface categoryPageProps {
   params: {
     category: string;
@@ -23,7 +19,6 @@ export default function image(props: categoryPageProps) {
   const [catImg, setCatImg] = useState('');
   const [catfoldername, setcatfoldername] = useState('');
   const [catimagename, setcatimagename] = useState('');
-  const [receivedData, setReceivedData] = useState('');
   const [genratedimageUrl, setgenratedimageUrl] = useState<File | Blob | null>(null);
   const [loading, setLoading] = useState(true); // State to track loading
   const [uploadedImage, setUploadedImage] = useState<File | null>(null); // State to track loading
@@ -45,8 +40,8 @@ export default function image(props: categoryPageProps) {
 const handleDataReceived = (data:any) => {
   // Handle the received data from the child component
   if( typeof data === 'string'){
-   setErrorDisplay(data);
-   setgenratedimageUrl(null);
+    setErrorDisplay(data);
+    setgenratedimageUrl(null);
   } else {
     setgenratedimageUrl(data);
     setErrorDisplay('');
@@ -130,8 +125,8 @@ const handleDownload = async () => {
             id="upload"
             accept="image/*"
             onChange={(e) => {
-              if (e.target.files && e.target.files.length > 0) {
-                setUploadedImage(e.target.files[0]);
+              if (e?.target?.files && e?.target?.files.length > 0) {
+                setUploadedImage(e?.target?.files[0]);
                 setOpenImageModal(1);
                 setgenratedimageUrl(null);
                 setErrorDisplay('');
@@ -140,10 +135,7 @@ const handleDownload = async () => {
             }}
             style={{display: 'none'}}
           />
-          { errorDisplay != '' && (
-            <div>{errorDisplay}</div>
-          )
-          }
+        
           
         </div>)}
       </div>

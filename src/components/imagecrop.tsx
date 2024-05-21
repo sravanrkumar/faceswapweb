@@ -130,41 +130,36 @@ useEffect(()=>{
                         new Uint8Array(imageArrayBuffer)
                           .reduce((data, byte) => data + String.fromCharCode(byte), '')
                       );
-                      base64String
                     // Create a blob from the base64 string
                  const blob = new Blob([Uint8Array.from(atob(base64String), c => c.charCodeAt(0))], { type: 'image/jpeg' });
                   props.onDataReceived(blob);
                 
             } catch (error) {
-              console.error("Error occurred while fetching data:", error);
+             // console.error("Error occurred while fetching data:", error);
               props.onDataReceived('');
             }
           } else {
-            console.error("Image uploaded is not correct");
+           // console.error("Image uploaded is not correct");
             props.onDataReceived('');
           }
         } else {
-          console.error("Response is null or undefined");
+           //console.error("Response is null or undefined");
           props.onDataReceived('');
         }
-        
-       
       } else {
         // Handle case where uploadedimage is null
-        console.error("No image uploaded");
+       // console.error("No image uploaded");
       }
         
     } else {
   
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
-  
     const offscreen = new OffscreenCanvas(
       completedCrop.width * scaleX,
       completedCrop.height * scaleY,
     );
     const ctx = offscreen.getContext('2d');
-  
     if (!ctx) {
       throw new Error('No 2d context');
     }
@@ -218,21 +213,21 @@ useEffect(()=>{
                const blob = new Blob([Uint8Array.from(atob(base64String), c => c.charCodeAt(0))], { type: 'image/jpeg' });
                 props.onDataReceived(blob);
             } catch (error) {
-              console.error("Error occurred while fetching data:", error);
+              //console.error("Error occurred while fetching data:", error);
               props.onDataReceived('');
             }
           } else {
-            console.error("Image uploaded is not correct");
+           /// console.error("Image uploaded is not correct");
             props.onDataReceived('');
           }
         } else {
-          console.error("Response is null or undefined");
+         // console.error("Response is null or undefined");
           props.onDataReceived('');
         }
 
         resolve();
       } catch (error) {
-        console.error('Error uploading cropped image:', error);
+        //console.error('Error uploading cropped image:', error);
         reject(error);
         // Handle error
       }
@@ -243,9 +238,7 @@ const  CropImage=()=> {
   setcropstatus(!cropstatus);
 }
 const imgProcessApi = (formData :any,apiUrl:string)=>{
-  console.log(apiUrl);
   const res = UseImageProcessApi(apiUrl,formData);
-  console.log(res);
   return res;
 }
 
