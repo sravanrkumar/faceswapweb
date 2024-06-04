@@ -3,7 +3,6 @@ import { generateToken } from "./UseJWT";
 const UseImageProcessApi = async (url:string, data:any) => {
   try {
     const token = generateToken();
-    console.log(token)
     const response = await axios.post(url, data, {
       headers: {
         'accept': 'application/json',

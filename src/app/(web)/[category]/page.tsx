@@ -1,7 +1,8 @@
 "use client"
 import categoryData from "@/constants/categoryData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Gallery from "@/components/gallery";
+import { useAdminContext } from "@/context/storeAdmin";
 interface AdmincategoryPageProps {
   params: {
     category:  string ;
@@ -10,7 +11,9 @@ interface AdmincategoryPageProps {
 export default function Home(props: AdmincategoryPageProps) {
   const Catname = props?.params?.category;
   const keys = Object.keys(categoryData);
-  const [categoryName,setcategoryName] =useState(Catname);
+  const { setAdmin,admin ,setIp,ip} = useAdminContext();
+  const [IpAddress,setIpAddress] = useState<any>(null);
+  const [categoryName,setcategoryName] = useState(Catname);
   return (
     <>
    

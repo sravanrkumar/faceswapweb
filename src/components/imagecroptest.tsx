@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Cropper from 'react-easy-crop';
 import UseImageProcessApi from '@/hooks/UseImageProcessApi';
-import { ENDPOINTS, getPhotoProcessingEndpointUrl, getVideoProcessingEndpointUrl } from '@/constants/endpoints';
+import { generateToken } from '@/hooks/UseJWT';
 
 interface Props {
   catfoldername: string;
@@ -9,9 +9,10 @@ interface Props {
   openImageModal: number;
   uploadedImage: File | null;
   onDataReceived: (data: any) => void;
+  ipToken :string;
 }
-
-const Imagecroptest: React.FC<Props> = ({ catfoldername, catimagename, openImageModal, uploadedImage, onDataReceived }) => {
+const token = generateToken();
+const Imagecroptest: React.FC<Props> = ({ catfoldername, catimagename, openImageModal, uploadedImage, onDataReceived,ipToken}) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [imageset, setImage] = useState<string>('');
@@ -71,58 +72,68 @@ const Imagecroptest: React.FC<Props> = ({ catfoldername, catimagename, openImage
     }
     const blob = new Blob([buffer], { type: mimeString });
     const file = new File([blob], 'uploadimage.jpeg', { type: 'image/jpeg' });
-    const formData = new FormData();
-
+   
+   const formData = new FormData();
     formData.append('sourceImage', file);
     formData.append('destImage', '');
-
-    const ext = catimagename.split('.');
-    const apiUrl = ext[1] === 'gif'
-      ? getVideoProcessingEndpointUrl(`${ENDPOINTS.upload}/${catfoldername}/${catimagename}?app_name=NaturePhotoFramesandEditor&user_type=free`)
-      : getPhotoProcessingEndpointUrl(`${ENDPOINTS.upload}/${catfoldername}/${catimagename}?app_name=NaturePhotoFramesandEditor`);
-
-    const res = await imgProcessApi(formData, apiUrl);
-    if (res !== null && res !== undefined) {
-      const url_id = res;
-      if (!isNaN(url_id)) {
-        setprocessingStatus(2);
-        try {
-          await delay(10000); // 10-second delay
-          const apiUrl2 = ext[1] === 'gif'
-            ? getVideoProcessingEndpointUrl(`${ENDPOINTS.result}/NaturePhotoFramesandEditor/${url_id}`)
-            : getPhotoProcessingEndpointUrl(`${ENDPOINTS.result}/NaturePhotoFramesandEditor/${url_id}`);
-
-          const response = await fetch(apiUrl2);
-          if(response?.status != 404) {
-            setprocessingStatus(3)
-           const imageArrayBuffer = await response.arrayBuffer();
-         
-            const base64String = btoa(
-              new Uint8Array(imageArrayBuffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
-            );
-
-            const finalBlob = new Blob([Uint8Array.from(atob(base64String), c => c.charCodeAt(0))], { type: 'image/jpeg' });
-            onDataReceived(finalBlob);
-            setloader(false);
-          } else {
-            seterrors("Server side error. Please try after some time.");
-            setloader(true);
-            return
-          }
-        } catch (error) {
-          setloader(true);
-          onDataReceived("Server side error. Please try after some time.");
-          seterrors("Server side error. Please try after some time.");
+    formData.append('catname', catfoldername);
+    formData.append('catimgname', catimagename);
+    
+    try {
+    const response = await fetch(`/api/imageProcess`, {
+      method: 'POST', // Specify the method as POST
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      body: formData // Convert the data object to a JSON string
+    });
+    if (response.ok) {
+      setprocessingStatus(2)
+      await delay(5000); // 35-second delay
+      const data = await response.json();
+      const result_id =data.request_id;
+      if(!isNaN(result_id)) {
+      try {
+          
+          const response:any = await fetch(`/api/imageResults`, {
+            method: 'POST', // Specify the method as POST
+            headers: {
+              'Content-Type': 'application/json', // Specify the content type
+              'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              'result_id': result_id,
+              'catImgName':catimagename
+            })
+          });
+        if(response != undefined && response != null ){
+          const data = await response.json();
+          const finalBlob = new Blob([Uint8Array.from(atob(data.image), c => c.charCodeAt(0))], { type: 'image/jpeg' });
+          onDataReceived(finalBlob);
+          setloader(false);
+          setprocessingStatus(3)
         }
-      } else {
+      } catch (error) {
+        seterrors("Server side error. Please try after some time.");
         setloader(true);
-        onDataReceived("Image uploaded is not correct");
-        seterrors("Image uploaded is not correct.");
-      }
+        return
+      }  
     } else {
-      setloader(false);
-      onDataReceived("Response is null or undefined");
+      seterrors("Server side error. Please try after some time.");
+      setloader(true);
+      return
     }
+    } else {
+      seterrors("Server side error. Please try after some time.");
+      setloader(true);
+      return
+    }
+  } catch (error) {
+    seterrors("Server side error. Please try after some time.");
+    setloader(true);
+    return
+  }
+
   };
 
   const imgProcessApi = (formData: FormData, apiUrl: string) => {

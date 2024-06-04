@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="footer_links text-xs space-x-6 mb-6">
         <Link href="/privacypolicy"> Privacy policy </Link>
         <Link href="/termsandconditions">Terms of service</Link>
-        <Link href="/">Contact us</Link>
+        <Link href="/contact-us">Contact us</Link>
       </div>
     </div>
   </footer>
