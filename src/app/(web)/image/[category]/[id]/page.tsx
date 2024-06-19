@@ -165,7 +165,7 @@ const handleDownload = async () => {
     <Banner/>
     
     </div>
-  { openImageModal == 1  && iptempcnt < 4 ? (
+  { openImageModal == 1  && iptempcnt < 6 ? (
     <>
     <Imagecroptest uploadedImage={uploadedImage} catfoldername={catfoldername}  openImageModal={openImageModal} catimagename={catimagename} onDataReceived={handleDataReceived} ipToken = {ipToken} />
  </>
