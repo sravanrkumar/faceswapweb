@@ -174,8 +174,7 @@ const handleDownload = async () => {
       <div id="default-modal"  className={`overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full ${openImageModal === 1 ? 'visible' : 'hidden'}`}>
               <div className="relative p-4 w-full max-w-2xl max-h-full m-auto">
                 <div className='absolute left-0 right-0 m-auto z-20 w-[500px] top-[40%]'>
-                  <span className="block text-xl">Upload photo limit exceeded.To explore your creativity .
-                    Download the App .
+                  <span className="block text-xl">Upload photo limit exceeded.To explore your creativity, Download the App .
                   </span>
                   <div className="button-list mt-3 flex justify-center">
                   <Link href="https://play.google.com/store/apps/details?id=com.hangoverstudios.faceswap.ai.art.avatar.generator" target="_blank" className="twitter"><Image src={"/assets/img/googleplay.png"} className="img-fluid" width={150} height={200} alt=""/></Link>
