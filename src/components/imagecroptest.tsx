@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Cropper from 'react-easy-crop';
 import UseImageProcessApi from '@/hooks/UseImageProcessApi';
 import { generateToken } from '@/hooks/UseJWT';
-
+import { FaceDetector, FilesetResolver, Detection } from '@mediapipe/tasks-vision';
 interface Props {
   catfoldername: string;
   catimagename: string;
@@ -80,6 +80,25 @@ const Imagecroptest: React.FC<Props> = ({ catfoldername, catimagename, openImage
     formData.append('catimgname', catimagename);
     
     try {
+       // Detect faces in the image before uploading
+       const detections = await detectFaces(file);
+       if (detections.length === 0) {
+           seterrors("No face detected in the image.");
+           setloader(true);
+           return;
+       }
+       if (detections.length > 1) {
+         seterrors("More than one face detected in the image.");
+        setloader(true);
+         return;
+       }
+      
+       let faceperctage : number = parseInt(detections[0]?.categories[0]?.score.toString().split('.')[1].substring(0, 2));
+       if(faceperctage < 90){
+        seterrors("Face is not clear in the image.Try with another image.");
+        setloader(true);
+        return;
+       }
     const response = await fetch(`/api/imageProcess`, {
       method: 'POST', // Specify the method as POST
       headers: {
@@ -135,11 +154,32 @@ const Imagecroptest: React.FC<Props> = ({ catfoldername, catimagename, openImage
   }
 
   };
-
   const imgProcessApi = (formData: FormData, apiUrl: string) => {
     return UseImageProcessApi(apiUrl, formData);
   };
+  // Function to detect faces using MediaPipe Face Detection
+  const detectFaces = async (file: File): Promise<Detection[]> => {
+    const vision = await FilesetResolver.forVisionTasks(
+        "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
+    );
+    const faceDetector = await FaceDetector.createFromOptions(vision, {
+        baseOptions: {
+            modelAssetPath: `https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/1/blaze_face_short_range.tflite`,
+            delegate: "GPU"
+        },
+        runningMode: "IMAGE"
+    });
 
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = URL.createObjectURL(file);
+        img.onload = async () => {
+            const detections = await faceDetector.detect(img).detections;
+            resolve(detections);
+        };
+        img.onerror = reject;
+    });
+  };
   return (
       <>
         <div>
