@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { generateToken } from '@/hooks/UseJWT'; // Adjust the path as necessary
 const pixellaburl = `${process.env.NEXT_PUBLIC_PIXELLAB_API_URL}`;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -11,9 +12,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             method: 'GET',
             headers: {
                 'Cache-Control': 'no-cache', // Disable caching
+                'Authorization': `Bearer ${generateToken()}`,
+
             }
         });
-        
+
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
