@@ -198,14 +198,14 @@ const Imagecroptest: React.FC<Props> = ({ catfoldername, catimagename, openImage
                     </button>            
                 </div>
                 
-                <div className="p-4 md:p-5 space-y-4 h-[320px]">
+                <div className="p-4 md:p-5 space-y-4 h-[330px]">
                   <div className="imagecrop">
                     <div className="crop-container">
                       <Cropper
                         image={imageset}
                         crop={crop}
                         zoom={zoom}
-                        aspect={1}
+                        aspect={aspectratio}
                         onCropChange={setCrop}
                         onCropComplete={onCropComplete}
                         onZoomChange={setZoom}
@@ -228,10 +228,16 @@ const Imagecroptest: React.FC<Props> = ({ catfoldername, catimagename, openImage
                     </div>
                   </div>
                 </div>
-                <div className="relative zindex-2 flex items-center p-4 md:p-5 rounded-b justify-end">
-                    <button data-modal-hide="default-modal" type="button"  className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2`} disabled={loader} onClick={SubmitImage}>Contiune </button>
+                <div className="relative zindex-2 flex items-center p-4 md:p-5 rounded-b justify-end space-x-3">
+                 
+                <button data-modal-hide="default-modal" type="button"  className={`w-6 h-4 border  ${aspectratio === 1.7 ? 'border-blue-600' : 'border-gray-200'}`}   disabled={loader} onClick={()=>{setaspectratio(1.7)}}>
+                </button>
+                <button data-modal-hide="default-modal" type="button"   className={`w-4 h-4 border  ${aspectratio === 1 ? 'border-blue-600' : 'border-gray-200'}`}  disabled={loader} onClick={()=>{setaspectratio(1)}}>
+                </button>
+                <button data-modal-hide="default-modal" type="button"  className={`w-4 h-6 border  ${aspectratio === 0.8 ? 'border-blue-600' : 'border-gray-200'}`}  disabled={loader} onClick={()=>{setaspectratio(0.8)}}>
+                </button>
+                <button data-modal-hide="default-modal" type="button"  className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2`} disabled={loader} onClick={SubmitImage}>Contiune </button>
                 </div>
-                
               </div>
              
           </div>

@@ -10,7 +10,7 @@ interface Catimgs {
 
 const Gallery = (props: { categoryName: string }) => {
   const [categoryimgs, setcategoryimgs] = useState<Catimgs[]>([]);
-  const [limit, setlimit] = useState(12);
+  const [limit, setlimit] = useState(3);
   const [loading, setLoading] = useState(true);
 
   const categoryName: string = props?.categoryName.replace(/_/g, ' ');
