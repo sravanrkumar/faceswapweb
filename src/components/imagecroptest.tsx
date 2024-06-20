@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Cropper from 'react-easy-crop';
-import UseImageProcessApi from '@/hooks/UseImageProcessApi';
 import { generateToken } from '@/hooks/UseJWT';
 import { FaceDetector, FilesetResolver, Detection } from '@mediapipe/tasks-vision';
 interface Props {
@@ -82,7 +81,6 @@ const Imagecroptest: React.FC<Props> = ({ catfoldername, catimagename, openImage
     try {
        // Detect faces in the image before uploading
        const detections = await detectFaces(file);
-       console.log(detections);
        if (detections.length === 0) {
            seterrors("No face detected in the image.");
            setloader(true);
@@ -94,12 +92,12 @@ const Imagecroptest: React.FC<Props> = ({ catfoldername, catimagename, openImage
          return;
        }
       
-       let faceperctage : number = parseInt(detections[0]?.categories[0]?.score.toString().split('.')[1].substring(0, 2));
-       if(faceperctage < 90){
-        seterrors("Face is not clear in the image.Try with another image.");
-        setloader(true);
-        return;
-       }
+      let faceperctage : number = parseInt(detections[0]?.categories[0]?.score.toString().split('.')[1].substring(0, 2));
+      if(faceperctage < 90){
+      seterrors("Face is not clear in the image.Try with another image.");
+      setloader(true);
+      return;
+      }
     const response = await fetch(`/api/imageProcess`, {
       method: 'POST', // Specify the method as POST
       headers: {
@@ -155,9 +153,6 @@ const Imagecroptest: React.FC<Props> = ({ catfoldername, catimagename, openImage
   }
 
   };
-  const imgProcessApi = (formData: FormData, apiUrl: string) => {
-    return UseImageProcessApi(apiUrl, formData);
-  };
   // Function to detect faces using MediaPipe Face Detection
   const detectFaces = async (file: File): Promise<Detection[]> => {
     const vision = await FilesetResolver.forVisionTasks(
@@ -198,20 +193,18 @@ const Imagecroptest: React.FC<Props> = ({ catfoldername, catimagename, openImage
                     </button>            
                 </div>
                 
-                <div className="p-4 md:p-5 space-y-4 h-[330px]">
+                <div className="p-4 md:p-5 space-y-4 h-[320px]">
                   <div className="imagecrop">
                     <div className="crop-container" >
                       <Cropper 
                         image={imageset}
                         crop={crop}
                         zoom={zoom}
-                        
                         aspect={aspectratio}
                         onCropChange={setCrop}
                         onCropComplete={onCropComplete}
                         onZoomChange={setZoom}
                         showGrid={false}
-                        
                       />
                     </div>
                     <div className="opertions">
@@ -230,15 +223,16 @@ const Imagecroptest: React.FC<Props> = ({ catfoldername, catimagename, openImage
                     </div>
                   </div>
                 </div>
-                <div className="relative zindex-2 flex items-center p-4 md:p-5 rounded-b justify-end space-x-3">
-                 
-                <button data-modal-hide="default-modal" type="button"  className={`w-6 h-4 border  ${aspectratio === 1.7 ? 'border-blue-600' : 'border-gray-200'}`}   disabled={loader} onClick={()=>{setaspectratio(1.4)}}>
-                </button>
-                <button data-modal-hide="default-modal" type="button"   className={`w-4 h-4 border  ${aspectratio === 1 ? 'border-blue-600' : 'border-gray-200'}`}  disabled={loader} onClick={()=>{setaspectratio(1)}}>
-                </button>
-                <button data-modal-hide="default-modal" type="button"  className={`w-4 h-6 border  ${aspectratio === 0.8 ? 'border-blue-600' : 'border-gray-200'}`}  disabled={loader} onClick={()=>{setaspectratio(0.9)}}>
-                </button>
-                <button data-modal-hide="default-modal" type="button"  className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2`} disabled={loader} onClick={SubmitImage}>Contiune </button>
+                <div className="relative zindex-2 flex items-center p-4 md:p-5 rounded-b justify-end space-x-3">                
+                  <button data-modal-hide="default-modal" type="button"  className={`w-6 h-4 border  ${aspectratio === 1.5 ? 'border-blue-600' : 'border-gray-200'}`}   disabled={loader} onClick={()=>{setaspectratio(1.4)}}>
+                  </button>
+                  <button data-modal-hide="default-modal" type="button"   className={`w-4 h-4 border  ${aspectratio === 1 ? 'border-blue-600' : 'border-gray-200'}`}  disabled={loader} onClick={()=>{setaspectratio(1)}}>
+                  </button>
+                  <button data-modal-hide="default-modal" type="button"  className={`w-4 h-6 border  ${aspectratio === 0.9 ? 'border-blue-600' : 'border-gray-200'}`}  disabled={loader} onClick={()=>{setaspectratio(0.9)}}>
+                  </button>
+                  <button data-modal-hide="default-modal" type="button"  className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2`} disabled={loader} onClick={SubmitImage}>
+                    Contiune 
+                  </button>
                 </div>
               </div>
              
