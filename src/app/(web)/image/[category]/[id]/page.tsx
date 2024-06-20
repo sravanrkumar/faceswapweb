@@ -81,9 +81,9 @@ const handleDownload = async () => {
     downloadLink.href = URL.createObjectURL(genratedimageUrl);
     const ext = catimagename.split('.');
     if (ext[1] == 'gif') {
-      downloadLink.download = 'image.mp4';
+      downloadLink.download = 'faceswapmagic.mp4';
     } else {
-      downloadLink.download = 'image.jpg';
+      downloadLink.download = 'faceswapmagic.jpg';
     }
   
     document.body.appendChild(downloadLink);
