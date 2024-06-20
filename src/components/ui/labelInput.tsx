@@ -22,7 +22,7 @@ const LabelInput = ({
       <Label htmlFor={id} className="font-bold text-xs">
         {label}
       </Label>
-      <Input
+      <Input className="text-gray-500"
         type="text"
         id={id}
         placeholder={placeholder}

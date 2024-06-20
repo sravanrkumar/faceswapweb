@@ -82,6 +82,7 @@ const Imagecroptest: React.FC<Props> = ({ catfoldername, catimagename, openImage
     try {
        // Detect faces in the image before uploading
        const detections = await detectFaces(file);
+       console.log(detections);
        if (detections.length === 0) {
            seterrors("No face detected in the image.");
            setloader(true);
