@@ -34,11 +34,15 @@ export default function image(props: categoryPageProps) {
   useEffect(() => {
     const fetchIpAddress = async () => {
       try {
-        const response = await fetch('/api/getIp');
+        const response = await fetch('/api/getIp', {
+          headers: {
+              'Cache-Control': 'no-cache', // Disable caching
+          }
+      });
         if (response.ok) {
           const data = await response.json();
           setIpToken(data.ip);
-          setiptempcnt(data.result)
+          setiptempcnt(data.count)
         }
       } catch (error) {
        
@@ -165,7 +169,8 @@ const handleDownload = async () => {
     <Banner/>
     
     </div>
-  { openImageModal == 1  && iptempcnt < 6 ? (
+   
+  { openImageModal == 1  && iptempcnt < 5 ? (
     <>
     <Imagecroptest uploadedImage={uploadedImage} catfoldername={catfoldername}  openImageModal={openImageModal} catimagename={catimagename} onDataReceived={handleDataReceived} ipToken = {ipToken} />
  </>
